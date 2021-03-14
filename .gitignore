@@ -4,7 +4,7 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 !**/MyBookShopApp/postgres/
-/MyBookShopApp/postgres/
+!postgres/
 
 ### STS ###
 .apt_generated

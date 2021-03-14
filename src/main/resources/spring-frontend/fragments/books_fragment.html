@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:fragment="recommended(recommended_books)">
+    <div class="Section-header">
+        <h2 class="Section-title" th:text="#{midbar.recommended}">Рекомендуемое
+        </h2>
+    </div>
+    <div class="Slider Slider_carousel">
+        <div class="Slider-box Cards" data-load="recommended" data-loadoffset="8" data-loadlimit="20">
+            <div class="Slider-item" th:each="dto : ${recommended_books}">
+                <div class="Slider-content">
+                    <div class="Card" th:with="book = ${dto.book}">
+                        <a class="Card-picture" th:href="@{/book/{slug}/(slug=${book.slug})}">
+                            <img src="/assets/img/content/main/card.jpg" alt="card.jpg"/>
+                            <div th:if="${book.isBestseller}" class="Card-ribbon">
+                                <span class="Card-ribbonText" th:text="#{midbar.bestseller}">Бестселлер</span>
+                            </div>
+                        </a>
+                        <div class="Card-content" th:with="author = ${dto.author}">
+                            <strong class="Card-title">
+                                <a th:href="@{/book/{slug}/(slug=${book.slug})}" th:text="${book.title}">Техника</a>
+                            </strong>
+                            <div class="Card-description" th:text="${author.name}">
+                                Кондратенко Валерий Петрович
+                            </div>
+                            <div class="Card-cost">
+                                <span class="Card-priceOld" th:text="${book.price}">₽300.00</span>
+                                <span class="Card-price" th:text="${book.price - (book.price / 100 * book.discount)}">₽190.00</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="Slider-navigateWrap">
+            <div class="Slider-navigate">
+            </div>
+        </div>
+        <div class="Slider-load">
+            <div class="Slider-load-text">Идет загрузка данных
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:fragment="popular(popular_books)">
+    <div class="Section-header">
+        <h2 class="Section-title" th:text="#{midbar.popular}">Популярное
+        </h2>
+    </div>
+    <div class="Slider Slider_carousel">
+        <div class="Slider-box Cards" data-load="recommended" data-loadoffset="8" data-loadlimit="20">
+            <div class="Slider-item" th:each="dto : ${popular_books}">
+                <div class="Slider-content">
+                    <div class="Card" th:with="book = ${dto.book}, author = ${dto.author}">
+                        <a class="Card-picture" th:href="@{/book/{slug}/(slug=${book.slug})}">
+                            <img src="/assets/img/content/main/card.jpg" alt="card.jpg"/>
+                            <div th:if="${book.isBestseller}" class="Card-ribbon">
+                                <span class="Card-ribbonText" th:text="#{midbar.bestseller}">Бестселлер</span>
+                            </div>
+                        </a>
+                        <div class="Card-content">
+                            <strong class="Card-title">
+                                <a th:href="@{/book/{slug}/(slug=${book.slug})}" th:text="${book.title}">Техника</a>
+                            </strong>
+                            <div class="Card-description" th:text="${author.name}">
+                                Кондратенко Валерий Петрович
+                            </div>
+                            <div class="Card-cost">
+                                <span class="Card-priceOld" th:text="${book.price}">₽300.00</span>
+                                <div th:if="${book.discount} != null">
+                                    <span class="Card-price" th:text="${book.price - (book.price / 100 * book.discount)}">₽190.00</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="Slider-navigateWrap">
+            <div class="Slider-navigate">
+            </div>
+        </div>
+        <div class="Slider-load">
+            <div class="Slider-load-text" th:text="#{midbar.loading}">Идет загрузка данных
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:fragment="recent(recent_books)">
+    <div class="Section-header">
+        <h2 class="Section-title" th:text="#{midbar.recent}">Новинки
+        </h2>
+    </div>
+    <div class="Slider Slider_carousel">
+        <div class="Slider-box Cards" data-load="recommended" data-loadoffset="8" data-loadlimit="20">
+            <div class="Slider-item" th:each="dto : ${recent_books}">
+                <div class="Slider-content">
+                    <div class="Card" th:with="book = ${dto.book}, author = ${dto.author}">
+                        <a class="Card-picture" th:href="@{/book/{slug}/(slug=${book.slug})}">
+                            <img src="/assets/img/content/main/card.jpg" alt="card.jpg"/>
+                            <div th:if="${book.discount > 0}" class="Card-sale" th:text="${book.discount} + '% скидка!'">
+                            </div>
+                        </a>
+                        <div class="Card-content">
+                            <strong class="Card-title">
+                                <a th:href="@{/book/{slug}/(slug=${book.slug})}" th:text="${book.title}">Техника</a>
+                            </strong>
+                            <div class="Card-description" th:text="${author.name}">
+                                Кондратенко Валерий Петрович
+                            </div>
+                            <div class="Card-cost">
+                                <span class="Card-priceOld" th:text="${book.price}">₽300.00</span>
+                                <div th:if="${book.discount} != null">
+                                    <span class="Card-price" th:text="${book.price - (book.price / 100 * book.discount)}">₽190.00</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="Slider-navigateWrap">
+            <div class="Slider-navigate">
+            </div>
+        </div>
+        <div class="Slider-load">
+            <div class="Slider-load-text" th:text="#{midbar.loading}">Идет загрузка данных
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:fragment="tags">
+    <h2 class="Middle-title" th:text="#{midbar.tags}">Книги по тегам
+    </h2>
+    <div class="Tags" id="tags">
+        <div class="Tag Tag_xs"><a th:href="@{/tag}">современная литература</a>
+        </div>
+        <div class="Tag Tag_sm"><a th:href="@{/tag}">классическая литература</a>
+        </div>
+        <div class="Tag"><a th:href="@{/tag}">зарубежная литература</a>
+        </div>
+        <div class="Tag Tag_md"><a th:href="@{/tag}">фэнтези</a>
+        </div>
+        <div class="Tag Tag_lg"><a th:href="@{/tag}">английская литература</a>
+        </div>
+        <div class="Tag"><a th:href="@{/tag}">русская литература</a>
+        </div>
+        <div class="Tag"><a th:href="@{/tag}">американская литература</a>
+        </div>
+        <div class="Tag"><a th:href="@{/tag}">фантастика</a>
+        </div>
+        <div class="Tag Tag_md"><a th:href="@{/tag}">детская литература</a>
+        </div>
+        <div class="Tag"><a th:href="@{/tag}">детектив</a>
+        </div>
+        <div class="Tag Tag_sm"><a th:href="@{/tag}">любовь</a>
+        </div>
+        <div class="Tag Tag_sm"><a th:href="@{/tag}">мистика</a>
+        </div>
+        <div class="Tag"><a th:href="@{/tag}">юмор</a>
+        </div>
+        <div class="Tag"><a th:href="@{/tag}">приключения</a>
+        </div>
+        <div class="Tag"><a th:href="@{/tag}">сказка</a>
+        </div>
+        <div class="Tag"><a th:href="@{/tag}">французская литература</a>
+        </div>
+        <div class="Tag Tag_xs"><a th:href="@{/tag}">англия</a>
+        </div>
+        <div class="Tag"><a th:href="@{/tag}">художественная литература</a>
+        </div>
+        <div class="Tag Tag_xs"><a th:href="@{/tag}">психология</a>
+        </div>
+        <div class="Tag"><a th:href="@{/tag}">философия</a>
+        </div>
+        <div class="Tag Tag_lg"><a th:href="@{/tag}">экранизировано</a>
+        </div>
+        <div class="Tag"><a th:href="@{/tag}">любимое</a>
+        </div>
+        <div class="Tag"><a th:href="@{/tag}">антиутопия</a>
+        </div>
+        <div class="Tag Tag_xs"><a th:href="@{/tag}">books you must read before you die</a>
+        </div>
+        <div class="Tag"><a th:href="@{/tag}">роман</a>
+        </div>
+        <div class="Tag Tag_md"><a th:href="@{/tag}">франция</a>
+        </div>
+        <div class="Tag"><a th:href="@{/tag}">дайте две</a>
+        </div>
+        <div class="Tag"><a th:href="@{/tag}">young adult</a>
+        </div>
+        <div class="Tag Tag_lg"><a th:href="@{/tag}">война</a>
+        </div>
+        <div class="Tag"><a th:href="@{/tag}">история</a>
+        </div>
+        <div class="Tag Tag_sm"><a th:href="@{/tag}">флэшмоб 2016</a>
+        </div>
+        <div class="Tag"><a th:href="@{/tag}">детство</a>
+        </div>
+        <div class="Tag"><a th:href="@{/tag}">жизнь</a>
+        </div>
+        <div class="Tag"><a th:href="@{/tag}">драма</a>
+        </div>
+        <div class="Tag Tag_md"><a th:href="@{/tag}">россия</a>
+        </div>
+        <div class="Tag Tag_md"><a th:href="@{/tag}">книжное путешествие</a>
+        </div>
+        <div class="Tag"><a th:href="@{/tag}">советская литература</a>
+        </div>
+        <div class="Tag"><a th:href="@{/tag}">триллер</a>
+        </div>
+        <div class="Tag"><a th:href="@{/tag}">америка</a>
+        </div>
+        <div class="Tag Tag_sm"><a th:href="@{/tag}">немецкая литература</a>
+        </div>
+        <div class="Tag Tag_xs"><a th:href="@{/tag}">вампиры</a>
+        </div>
+        <div class="Tag"><a th:href="@{/tag}">школьная программа</a>
+        </div>
+        <div class="Tag Tag_xs"><a th:href="@{/tag}">рассказы</a>
+        </div>
+        <div class="Tag"><a th:href="@{/tag}">магия</a></div>
+        <div class="Tag"><a th:href="@{/tag}">дети</a></div>
+        <div class="Tag"><a th:href="@{/tag}">русская классика</a></div>
+        <div class="Tag"><a th:href="@{/tag}">флэшмоб 2015</a></div>
+        <div class="Tag"><a th:href="@{/tag}">биография</a></div>
+        <div class="Tag"><a th:href="@{/tag}">english</a></div>
+    </div>
+</div>
+</body>
+</html>

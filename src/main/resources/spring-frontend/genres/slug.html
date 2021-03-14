@@ -1,0 +1,67 @@
+
+<!--END-->
+<!--END--><!DOCTYPE html><!--[if IE 7]>
+<html class="ie7" lang="ru">
+<![endif]-->
+<!--[if IE 8]>
+<html class="ie8" lang="ru">
+<![endif]-->
+<!--[if IE 9]>
+<html class="ie9" lang="ru">
+<![endif]-->
+<!--[if gt IE 9]><!--> <html lang="ru" xmlns:th="http://www.thymeleaf.org"> <!--<![endif]-->
+<head th:replace="~{/fragments/head_fragment :: head('Genres')}"></head>
+<body class="Site">
+  <!--if lt IE 8
+  p.error-browser
+      | Ваш браузер&nbsp;
+      em устарел!&nbsp;
+      a(href="http://browsehappy.com/") Выберите новую версию
+          +s
+          | браузера здесь&nbsp;
+      | для правильного отображения сайта.
+  -->
+  <header th:replace="~{/fragments/header_fragment :: headFragment('Genres')}"></header>
+  <div class="Middle">
+    <div class="wrap">
+      <main class="Middle-main">
+        <ul class="breadcrumbs">
+          <li class="breadcrumbs-item"><a th:href="@{/}" th:text="#{topbar.main}">Главная</a>
+          </li>
+          <li class="breadcrumbs-item"><a th:href="@{/genres}" th:text="#{topbar.genres}">Жанры</a>
+          </li>
+          <li class="breadcrumbs-item"><a th:href="@{/genres}" th:text="#{topbar.reading}">Легкое чтение</a>
+          </li>
+          <li class="breadcrumbs-item breadcrumbs-item_current"><span th:text="#{midbar.detective}">Детективы</span>
+          </li>
+        </ul>
+        <header class="Middle-header">
+          <h1 class="Middle-title" th:text="#{midbar.detective}">Детективы
+          </h1>
+        </header>
+        <div class="Section">
+          <div class="Cards Cards_refresh">
+            <div class="Card" th:each="book : ${genreBooks}">
+              <div class="Card-picture"><a th:href="@{/slug/{id}/(id=${book.id})}"><img src="/assets/img/content/main/card.jpg" alt="card.jpg"/></a>
+              </div>
+              <div class="Card-content">
+                <strong class="Card-title"><a th:href="@{/slug/{id}/(id=${book.id})}" th:text="${book.title}">Техника</a>
+                </strong>
+                <div class="Card-description" th:text="${book.author}">Кондратенко Александр Петрович
+                </div>
+                <div class="Card-cost">
+                  <span class="Card-priceOld" th:text="${book.priceOld}">₽300.00</span>
+                  <span class="Card-price" th:text="${book.price}">₽190.00</span>
+                </div>
+              </div>
+            </div>
+            <div class="Cards-footer Cards-footer_center"><a class="btn btn_primary" href="#" data-refreshshow="genre" data-refreshoffset="10" data-refreshlimit="20" data-refreshid="1020">Показать еще</a>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+  <footer th:replace="~{/fragments/footer_fragment :: footFragment}"></footer>
+  <script src="/assets/plg/jQuery/jquery-3.5.1.min.js"></script>
+</body></html>

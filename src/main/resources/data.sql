@@ -1,3 +1,4 @@
+/*
 insert into author (id, description, name, photo, slug) values (1, 'eu nibh quisque id justo sit amet sapien dignissim vestibulum vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae nulla dapibus dolor vel est donec odio justo', 'Corty Balser', 'http://dummyimage.com/179x248.png/cc0000/ffffff', 1);
 insert into author (id, description, name, photo, slug) values (2, 'eleifend luctus ultricies eu nibh quisque id justo sit amet sapien dignissim vestibulum vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae nulla dapibus dolor vel est donec odio justo sollicitudin ut suscipit a feugiat et eros vestibulum ac est lacinia nisi venenatis tristique fusce', 'Evanne Sterling', 'http://dummyimage.com/222x195.png/cc0000/ffffff', 2);
 insert into author (id, description, name, photo, slug) values (3, 'faucibus orci luctus et ultrices posuere cubilia curae nulla dapibus dolor vel est donec odio justo sollicitudin ut suscipit a feugiat et eros vestibulum ac est lacinia nisi venenatis tristique fusce', 'Granny Youel', 'http://dummyimage.com/129x212.png/5fa2dd/ffffff', 3);
@@ -150,6 +151,9 @@ insert into book (id, description, discount, image, is_bestseller, price, pub_da
 insert into book (id, description, discount, image, is_bestseller, price, pub_date, slug, title) values (99, 'id turpis integer aliquet massa id lobortis convallis tortor risus dapibus augue vel accumsan tellus nisi eu orci mauris lacinia sapien quis libero nullam sit amet turpis elementum ligula vehicula consequat morbi a ipsum integer a nibh in quis justo maecenas rhoncus aliquam lacus', 0, 'http://dummyimage.com/166x213.png/ff4444/ffffff', true, 255, '2020-04-12', 99, 'El asombroso mundo de Borjamari y Pocholo');
 insert into book (id, description, discount, image, is_bestseller, price, pub_date, slug, title) values (100, 'vel augue vestibulum rutrum rutrum neque aenean auctor gravida sem praesent id massa id nisl venenatis lacinia aenean sit amet justo morbi ut odio cras mi pede malesuada in imperdiet et commodo vulputate justo in blandit ultrices enim lorem ipsum dolor sit amet consectetuer adipiscing elit proin interdum', 39, 'http://dummyimage.com/153x117.png/cc0000/ffffff', true, 255, '2020-09-01', 100, 'Murder on the Orient Express');
 
+alter table book2author
+    add column if not exists sort_index int not null default 0;
+
 insert into book2author (sort_index, book_id, author_id) values (1, 1, 36);
 insert into book2author (sort_index, book_id, author_id) values (2, 2, 42);
 insert into book2author (sort_index, book_id, author_id) values (3, 3, 19);
@@ -250,3 +254,19 @@ insert into book2author (sort_index, book_id, author_id) values (97, 97, 45);
 insert into book2author (sort_index, book_id, author_id) values (98, 98, 44);
 insert into book2author (sort_index, book_id, author_id) values (99, 99, 7);
 insert into book2author (sort_index, book_id, author_id) values (100, 100, 18);
+
+
+
+alter table book2user
+    add column if not exists id serial not null;
+
+alter table book2user
+    add constraint book2user_pk
+    primary key (id);
+
+
+alter table book2user
+    add column if not exists time date not null default make_date(1970, 01, 01);
+alter table book2user
+    add column if not exists type_id int not null default 0;
+*/

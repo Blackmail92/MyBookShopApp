@@ -26,5 +26,6 @@ public class Genre {
     private String name;
 
     @ManyToMany(targetEntity = Book.class, fetch = FetchType.LAZY)
+    @JoinTable(name = "genre2book")
     private List<Book> book;
 }

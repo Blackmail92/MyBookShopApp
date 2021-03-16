@@ -1,5 +1,6 @@
 package com.example.MyBookShopApp.data.entities.simple;
 
+import com.example.MyBookShopApp.data.entities.utils.TableEnums;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -19,8 +20,8 @@ public class UserContact {
     @OneToOne(targetEntity = User.class, fetch = FetchType.LAZY)
     private User user;
 
-    @Column(columnDefinition = "SMALLINT NOT NULL")
-    private Type type;
+    @Basic
+    private String type;
 
     @Column(columnDefinition = "BOOLEAN NOT NULL")
     private boolean approved;
@@ -37,7 +38,18 @@ public class UserContact {
     @Column(columnDefinition = "VARCHAR(255) NOT NULL")
     private String contact;
 
-    enum Type {
-        PHONE, EMAIL
+    @Transient
+    private TableEnums.ContactType typeEnum;
+
+    @PostLoad
+    void fillTransient() {
+        this.typeEnum = TableEnums.ContactType.of(type);
+    }
+
+    @PrePersist
+    void fillPersistent() {
+        if (type != null) {
+            this.type = typeEnum.name();
+        }
     }
 }

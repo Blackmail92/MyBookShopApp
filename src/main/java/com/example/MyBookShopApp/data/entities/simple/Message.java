@@ -9,22 +9,28 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @Entity
-@Table(name = "review")
-public class BookReview {
+@Table(name = "message")
+public class Message {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(columnDefinition = "INT NOT NULL")
     private Integer id;
 
     @Column(columnDefinition = "DATE NOT NULL")
     private LocalDateTime time;
 
-    @Column(columnDefinition = "TEXT NOT NULL")
-    private String text;
-
-    @ManyToOne(targetEntity = Book.class, fetch = FetchType.LAZY)
-    private Book book;
-
     @ManyToOne(targetEntity = User.class, fetch = FetchType.LAZY)
     private User user;
+
+    @Column(columnDefinition = "VARCHAR(255)")
+    private String eMail;
+
+    @Column(columnDefinition = "VARCHAR(255)")
+    private String name;
+
+    @Column(columnDefinition = "VARCHAR(255) NOT NULL")
+    private String subject;
+
+    @Column(columnDefinition = "TEXT NOT NULL")
+    private String text;
 }

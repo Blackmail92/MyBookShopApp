@@ -1,11 +1,10 @@
 package com.example.MyBookShopApp.data.entities.simple;
 
-import com.example.MyBookShopApp.data.entities.connections.BookToAuthor;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
@@ -19,7 +18,7 @@ public class Book {
     private Integer id;
 
     @Column(columnDefinition = "DATE NOT NULL")
-    private LocalDate pubDate;
+    private LocalDateTime pubDate;
 
     @Column(columnDefinition = "BOOLEAN NOT NULL")
     private boolean isBestseller;
@@ -42,12 +41,22 @@ public class Book {
     @Column(columnDefinition = "SMALLINT NOT NULL DEFAULT 0")
     private short discount;
 
-    @OneToMany(mappedBy = "author", fetch = FetchType.LAZY)
-    private List<BookToAuthor> author;
+    @ManyToMany(targetEntity = Author.class, fetch = FetchType.LAZY)
+    @JoinTable(name = "book2author")
+    private List<Author> author;
 
-    @OneToMany(mappedBy = "book", fetch = FetchType.LAZY)
+    @OneToMany(targetEntity = BookReview.class, fetch = FetchType.LAZY)
+    @JoinTable(name = "book2review")
     private List<BookReview> bookReview;
 
-    @ManyToMany(mappedBy = "book", fetch = FetchType.LAZY)
+    @ManyToMany(targetEntity = Genre.class, fetch = FetchType.LAZY)
+    @JoinTable(name = "genre2book")
     private List<Genre> genre;
+
+    @ManyToMany(targetEntity = User.class, fetch = FetchType.LAZY)
+    @JoinTable(name = "book2user")
+    private List<User> user;
+
+    @OneToMany(mappedBy = "book")
+    private List<FileDownload> download;
 }

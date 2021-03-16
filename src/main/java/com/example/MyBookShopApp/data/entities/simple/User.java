@@ -4,7 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
@@ -21,7 +21,7 @@ public class User {
     private String hash;
 
     @Column(columnDefinition = "DATE NOT NULL")
-    private LocalDate regTime;
+    private LocalDateTime regTime;
 
     @Column(columnDefinition = "INT NOT NULL")
     private Integer balance;
@@ -34,4 +34,13 @@ public class User {
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     private List<BookReviewLike> bookLikes;
+
+    @ManyToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    private List<Book> books;
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    private List<FileDownload> downloads;
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    private List<Message> messages;
 }

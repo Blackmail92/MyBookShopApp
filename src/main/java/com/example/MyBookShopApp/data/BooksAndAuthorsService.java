@@ -1,34 +1,25 @@
 package com.example.MyBookShopApp.data;
 
-import com.example.MyBookShopApp.data.entities.connections.BookToAuthor;
 import com.example.MyBookShopApp.data.entities.simple.Author;
 import com.example.MyBookShopApp.data.entities.simple.Book;
 import com.example.MyBookShopApp.data.repos.AuthorRepo;
 import com.example.MyBookShopApp.data.repos.BookRepo;
-import com.example.MyBookShopApp.data.repos.BookToAuthorAuthorRepo;
-import com.example.MyBookShopApp.data.repos.BookToAuthorBookRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
 public class BooksAndAuthorsService {
-    private final BookToAuthorBookRepo btaBookRepo;
-    private final BookToAuthorAuthorRepo btaAuthorRepo;
     private final AuthorRepo authorRepo;
     private final BookRepo bookRepo;
     private final List<BookAndAuthorDto> allBooksAndAuthors;
-    private BookAndAuthorDto book;
 
     @Autowired
     public BooksAndAuthorsService(
-            BookToAuthorBookRepo btaBookRepo, BookToAuthorAuthorRepo btaAuthorRepo,
             BookRepo bookRepo, AuthorRepo authorRepo) {
-        this.btaBookRepo = btaBookRepo;
-        this.btaAuthorRepo = btaAuthorRepo;
         this.bookRepo = bookRepo;
         this.authorRepo = authorRepo;
         allBooksAndAuthors = getAllBooksAndAuthors();
@@ -40,17 +31,17 @@ public class BooksAndAuthorsService {
     }
 
     public List<BookAndAuthorDto> getRecentBooksAndAuthors() {
-        LocalDate dateTo = LocalDate.now().minusMonths(1);
+        LocalDateTime dateTo = LocalDateTime.now().minusMonths(1);
         List<Book> books = bookRepo.findAll()
                 .stream()
-                .filter(b -> b.getPubDate().isBefore(dateTo)).collect(Collectors.toList());
+                .filter(b -> b.getPubDate().isAfter(dateTo)).collect(Collectors.toList());
         return createDto(books);
     }
 
     public BookAndAuthorDto getBookBySlug(String slug) {
-        book = null;
-        allBooksAndAuthors.forEach(dto -> book = dto.getBook().getSlug().equals(slug) ? dto : book);
-        return book;
+        return allBooksAndAuthors.stream()
+                .filter(dto -> dto.getBook().getSlug().equals(slug))
+                .findFirst().orElseThrow(IllegalArgumentException::new);
     }
 
     public Map<String, List<Author>> getAllAuthorsGrouped() {
@@ -63,7 +54,7 @@ public class BooksAndAuthorsService {
     }
 
     public List<BookAndAuthorDto> getBooksByAuthor(Author author) {
-        List<Book> books = btaBookRepo.findAllByAuthor(author);
+        List<Book> books = bookRepo.findAllByAuthor(author);
         return createDto(books);
     }
 
@@ -79,7 +70,7 @@ public class BooksAndAuthorsService {
         List<BookAndAuthorDto> booksAndAuthors = new ArrayList<>();
         // Запрос сделать через where author.id in ...
         books.forEach(b -> booksAndAuthors.add(
-                new BookAndAuthorDto(b, btaAuthorRepo.findAuthorByBook(b.getId()))));
+                createDto(b, authorRepo.findAuthorByBook(b).get(0))));
         return booksAndAuthors;
     }
 

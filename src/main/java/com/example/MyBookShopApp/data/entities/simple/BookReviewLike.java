@@ -4,12 +4,12 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
 @Entity
-@Table(name = "book_review_like")
+@Table(name = "review_like")
 public class BookReviewLike {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -17,7 +17,7 @@ public class BookReviewLike {
     private Integer id;
 
     @Column(columnDefinition = "DATE NOT NULL")
-    private LocalDate time;
+    private LocalDateTime time;
 
     @Column(columnDefinition = "SMALLINT NOT NULL")
     private short value;

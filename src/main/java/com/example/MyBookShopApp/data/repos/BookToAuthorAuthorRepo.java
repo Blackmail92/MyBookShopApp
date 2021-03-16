@@ -1,3 +1,4 @@
+/*
 package com.example.MyBookShopApp.data.repos;
 
 import com.example.MyBookShopApp.data.entities.simple.Author;
@@ -16,3 +17,4 @@ public interface BookToAuthorAuthorRepo extends JpaRepository<Author, Integer> {
 
     Author findAuthorByBook(Book b);
 }
+*/

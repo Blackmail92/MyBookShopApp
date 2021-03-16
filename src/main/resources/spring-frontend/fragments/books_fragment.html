@@ -70,7 +70,8 @@
                             <div class="Card-cost">
                                 <span class="Card-priceOld" th:text="${book.price}">₽300.00</span>
                                 <div th:if="${book.discount} != null">
-                                    <span class="Card-price" th:text="${book.price - (book.price / 100 * book.discount)}">₽190.00</span>
+                                    <span class="Card-price"
+                                          th:text="${book.price - (book.price / 100 * book.discount)}">₽190.00</span>
                                 </div>
                             </div>
                         </div>
@@ -101,7 +102,8 @@
                     <div class="Card" th:with="book = ${dto.book}, author = ${dto.author}">
                         <a class="Card-picture" th:href="@{/book/{slug}/(slug=${book.slug})}">
                             <img src="/assets/img/content/main/card.jpg" alt="card.jpg"/>
-                            <div th:if="${book.discount > 0}" class="Card-sale" th:text="${book.discount} + '% скидка!'">
+                            <div th:if="${book.discount > 0}" class="Card-sale"
+                                 th:text="${book.discount} + '% скидка!'">
                             </div>
                         </a>
                         <div class="Card-content">
@@ -114,7 +116,8 @@
                             <div class="Card-cost">
                                 <span class="Card-priceOld" th:text="${book.price}">₽300.00</span>
                                 <div th:if="${book.discount} != null">
-                                    <span class="Card-price" th:text="${book.price - (book.price / 100 * book.discount)}">₽190.00</span>
+                                    <span class="Card-price"
+                                          th:text="${book.price - (book.price / 100 * book.discount)}">₽190.00</span>
                                 </div>
                             </div>
                         </div>

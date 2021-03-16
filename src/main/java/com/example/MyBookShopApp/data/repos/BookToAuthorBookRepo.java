@@ -1,3 +1,4 @@
+/*
 package com.example.MyBookShopApp.data.repos;
 
 import com.example.MyBookShopApp.data.entities.simple.Author;
@@ -12,3 +13,4 @@ public interface BookToAuthorBookRepo extends JpaRepository<Book, Integer> {
     @Query("SELECT book FROM BookToAuthor WHERE author_id=:author")
     List<Book> findAllByAuthor(@Param("author") Author author);
 }
+*/

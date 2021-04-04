@@ -25,7 +25,6 @@ public class TableEnums {
         }
     }
 
-
     public enum ContactType {
         PHONE, EMAIL;
 

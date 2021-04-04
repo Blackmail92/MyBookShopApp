@@ -20,6 +20,7 @@ public class BookFileType {
 
     @Column(columnDefinition = "TEXT NOT NULL")
     private String description;
+
     @Transient
     private TableEnums.FileType typeEnum;
 

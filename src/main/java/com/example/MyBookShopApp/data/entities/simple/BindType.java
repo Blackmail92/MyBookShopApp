@@ -25,10 +25,12 @@ public class BindType {
     @PostLoad
     void fillEnum() {
         this.typeEnum = TableEnums.BookType.of(id);
+        this.name = typeEnum.name();
     }
 
     @PrePersist
     void fillVal() {
         this.id = typeEnum.getCode();
+        this.name = typeEnum.name();
     }
 }

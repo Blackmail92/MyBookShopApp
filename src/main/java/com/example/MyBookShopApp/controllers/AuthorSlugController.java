@@ -8,11 +8,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.Collections;
 import java.util.List;
 
 @Controller
+@RequestMapping("/books")
 public class AuthorSlugController {
     private final BooksAndAuthorsService service;
 
@@ -29,7 +31,7 @@ public class AuthorSlugController {
         return "authors/slug";
     }
 
-    @GetMapping("/books/author/{id}")
+    @GetMapping("/author/{id}")
     public String booksByAuthor(@PathVariable Integer id, Model model) {
         Author author = service.getAuthorById(id);
         model.addAttribute("authorById", author);

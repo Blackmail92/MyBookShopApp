@@ -17,12 +17,7 @@ class One {
 @SpringBootTest
 class MyBookShopAppApplicationTests extends One {
 
-    @Test
-    void contextLoads() {
-        StringBuilder builder = new StringBuilder("sadd");
-        System.out.println(builder);
-        System.out.println(builder.toString());
-    }
+
 
     static class SendSmsHttp {
         byte[] toByteArray() {

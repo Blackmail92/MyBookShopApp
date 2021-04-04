@@ -6,8 +6,11 @@ import com.example.MyBookShopApp.data.repos.AuthorRepo;
 import com.example.MyBookShopApp.data.repos.BookRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -31,10 +34,13 @@ public class BooksAndAuthorsService {
     }
 
     public List<BookAndAuthorDto> getRecentBooksAndAuthors() {
-        LocalDateTime dateTo = LocalDateTime.now().minusMonths(1);
+        LocalDateTime dateTo = LocalDateTime.now().minusMonths(2);
         List<Book> books = bookRepo.findAll()
                 .stream()
                 .filter(b -> b.getPubDate().isAfter(dateTo)).collect(Collectors.toList());
+        while (books.size() < 4) {
+            books.addAll(books);
+        }
         return createDto(books);
     }
 
@@ -81,6 +87,20 @@ public class BooksAndAuthorsService {
     public List<BookAndAuthorDto> getPopularBooksAndAuthors() {
         List<Book> books = bookRepo.findAll().stream()
                 .filter(Book::isBestseller)
+                .collect(Collectors.toList());
+        return createDto(books);
+    }
+
+    public List<BookAndAuthorDto> getBooksByDate(Date from, Date till) {
+        LocalDate fromDate;
+        LocalDate tillDate;
+        if (StringUtils.isEmpty(from)) {
+            return getRecentBooksAndAuthors();
+        }
+        fromDate = from.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        tillDate = till.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        List<Book> books = bookRepo.findAll().stream()
+                .filter(book -> book.getPubDate().toLocalDate().isAfter(fromDate) && book.getPubDate().toLocalDate().isBefore(tillDate))
                 .collect(Collectors.toList());
         return createDto(books);
     }

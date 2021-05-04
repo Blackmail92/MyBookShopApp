@@ -25,7 +25,6 @@ public class Genre {
     @Column(columnDefinition = "VARCHAR(255) NOT NULL")
     private String name;
 
-    @ManyToMany(targetEntity = Book.class, fetch = FetchType.LAZY)
-    @JoinTable(name = "genre2book")
+    @OneToMany(targetEntity = Book.class, fetch = FetchType.EAGER)
     private List<Book> book;
 }

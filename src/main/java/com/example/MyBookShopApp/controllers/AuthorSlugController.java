@@ -1,12 +1,15 @@
 package com.example.MyBookShopApp.controllers;
 
-import com.example.MyBookShopApp.data.BookAndAuthorDto;
+import com.example.MyBookShopApp.data.BookDto;
 import com.example.MyBookShopApp.data.BooksAndAuthorsService;
+import com.example.MyBookShopApp.data.SearchWordDto;
 import com.example.MyBookShopApp.data.entities.simple.Author;
+import com.example.MyBookShopApp.data.entities.simple.Book;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -23,7 +26,12 @@ public class AuthorSlugController {
         this.service = service;
     }
 
-    @GetMapping("/authors/slug/{id}")
+    @ModelAttribute("searchWordDto")
+    public SearchWordDto searchWordDto() {
+        return new SearchWordDto();
+    }
+
+    @GetMapping("/authors/{id}")
     public String getAuthor(@PathVariable Integer id, Model model) {
         Author author = service.getAuthorById(id);
         model.addAttribute("authorById", author);
@@ -35,7 +43,7 @@ public class AuthorSlugController {
     public String booksByAuthor(@PathVariable Integer id, Model model) {
         Author author = service.getAuthorById(id);
         model.addAttribute("authorById", author);
-        List<BookAndAuthorDto> books = service.getBooksByAuthor(author);
+        List<BookDto> books = service.getBooksByAuthor(author);
         if (books.size() > 0) {
             model.addAttribute("booksByAuthor", service.getBooksByAuthor(author));
         } else {

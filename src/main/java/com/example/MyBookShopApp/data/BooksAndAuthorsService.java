@@ -5,6 +5,8 @@ import com.example.MyBookShopApp.data.entities.simple.Book;
 import com.example.MyBookShopApp.data.repos.AuthorRepo;
 import com.example.MyBookShopApp.data.repos.BookRepo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -18,35 +20,21 @@ import java.util.stream.Collectors;
 public class BooksAndAuthorsService {
     private final AuthorRepo authorRepo;
     private final BookRepo bookRepo;
-    private final List<BookAndAuthorDto> allBooksAndAuthors;
 
     @Autowired
     public BooksAndAuthorsService(
             BookRepo bookRepo, AuthorRepo authorRepo) {
         this.bookRepo = bookRepo;
         this.authorRepo = authorRepo;
-        allBooksAndAuthors = getAllBooksAndAuthors();
     }
 
-    public List<BookAndAuthorDto> getAllBooksAndAuthors() {
-        List<Book> books = bookRepo.findAll();
-        return createDto(books);
+    public List<BookDto> getAllBooksAndAuthors() {
+        return BookMapper.fromList(bookRepo.findAll());
     }
 
-    public List<BookAndAuthorDto> getRecentBooksAndAuthors() {
-        LocalDateTime dateTo = LocalDateTime.now().minusMonths(2);
-        List<Book> books = bookRepo.findAll()
-                .stream()
-                .filter(b -> b.getPubDate().isAfter(dateTo)).collect(Collectors.toList());
-        while (books.size() < 4) {
-            books.addAll(books);
-        }
-        return createDto(books);
-    }
-
-    public BookAndAuthorDto getBookBySlug(String slug) {
-        return allBooksAndAuthors.stream()
-                .filter(dto -> dto.getBook().getSlug().equals(slug))
+    public BookDto getBookBySlug(String slug) {
+        return getAllBooksAndAuthors().stream()
+                .filter(book -> book.getSlug().equals(slug))
                 .findFirst().orElseThrow(IllegalArgumentException::new);
     }
 
@@ -59,39 +47,11 @@ public class BooksAndAuthorsService {
         return authorRepo.findAuthorById(id);
     }
 
-    public List<BookAndAuthorDto> getBooksByAuthor(Author author) {
-        List<Book> books = bookRepo.findAllByAuthor(author);
-        return createDto(books);
+    public List<BookDto> getBooksByAuthor(Author author) {
+        return BookMapper.fromList(bookRepo.findAllByAuthor(author));
     }
 
-    public List<BookAndAuthorDto> getRecommendedBooksAndAuthors() {
-        List<Book> books = bookRepo.findAll()
-                .stream()
-                .filter(b -> b.getDiscount() != 0 || b.isBestseller())
-                .collect(Collectors.toList());
-        return createDto(books);
-    }
-
-    private List<BookAndAuthorDto> createDto(List<Book> books) {
-        List<BookAndAuthorDto> booksAndAuthors = new ArrayList<>();
-        // Запрос сделать через where author.id in ...
-        books.forEach(b -> booksAndAuthors.add(
-                createDto(b, authorRepo.findAuthorByBook(b).get(0))));
-        return booksAndAuthors;
-    }
-
-    private BookAndAuthorDto createDto(Book book, Author author) {
-        return new BookAndAuthorDto(book, author);
-    }
-
-    public List<BookAndAuthorDto> getPopularBooksAndAuthors() {
-        List<Book> books = bookRepo.findAll().stream()
-                .filter(Book::isBestseller)
-                .collect(Collectors.toList());
-        return createDto(books);
-    }
-
-    public List<BookAndAuthorDto> getBooksByDate(Date from, Date till) {
+    public List<BookDto> getBooksByDate(Date from, Date till) {
         LocalDate fromDate;
         LocalDate tillDate;
         if (StringUtils.isEmpty(from)) {
@@ -99,9 +59,46 @@ public class BooksAndAuthorsService {
         }
         fromDate = from.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
         tillDate = till.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-        List<Book> books = bookRepo.findAll().stream()
+        return BookMapper.fromList(bookRepo.findAll().stream()
                 .filter(book -> book.getPubDate().toLocalDate().isAfter(fromDate) && book.getPubDate().toLocalDate().isBefore(tillDate))
-                .collect(Collectors.toList());
-        return createDto(books);
+                .collect(Collectors.toList()));
+    }
+
+    public List<BookDto> getPopularBooks(Integer offset, Integer limit) {
+        Pageable nextPage = PageRequest.of(offset, limit);
+        List<Book> books = bookRepo.findAllByIsBestsellerIsTrue(nextPage);
+        return BookMapper.fromList(books);
+    }
+
+    public List<BookDto> getRecommendedBooks(Integer offset, Integer limit) {
+        Pageable nextPage = PageRequest.of(offset, limit);
+        List<Book> books = bookRepo.findBooksByIsBestsellerIsTrueAndPubDateAfter(LocalDateTime.now().minusYears(1), nextPage);
+        return BookMapper.fromList(books);
+    }
+
+    public List<BookDto> getRecentBooksAndAuthors() {
+        return BookMapper.fromList(bookRepo.findAllByPubDateAfter(LocalDateTime.now().minusYears(1)));
+    }
+
+    public List<BookDto> getRecentBooksAndAuthors(Integer offset, Integer limit) {
+        Pageable nextPage = PageRequest.of(offset, limit);
+        return BookMapper.fromList(bookRepo.findByPubDateAfter(LocalDateTime.now().minusYears(1), nextPage));
+    }
+
+    public List<BookDto> getSearchResultBooks(String search, Integer offset, Integer limit) {
+        Pageable nextPage = PageRequest.of(offset, limit);
+        List<Book> books = bookRepo.findBooksByTitleContaining(search, nextPage);
+        return BookMapper.fromList(books);
+    }
+
+    public List<BookDto> getBooksByGenre(Integer id, Integer offset, Integer limit) {
+        Pageable nextPage = PageRequest.of(offset, limit);
+        List<Book> books = bookRepo.findBooksByGenreId(id, nextPage);
+        return BookMapper.fromList(books);
+    }
+
+    public List<BookDto> getBooksByGenre(Integer id) {
+        List<Book> books = bookRepo.findBooksByGenreId(id);
+        return BookMapper.fromList(books);
     }
 }

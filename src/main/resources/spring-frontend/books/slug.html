@@ -10,8 +10,8 @@
 <html class="ie9" lang="ru">
 <![endif]-->
 <!--[if gt IE 9]><!--> <html lang="ru" xmlns:th="http://www.thymeleaf.org"> <!--<![endif]-->
-<head th:with="book = ${bookBySlug.book}">
-  <title th:text="*{book.title}">Тут название страницы написать</title>
+<head>
+  <title th:text="*{bookBySlug.title}">Тут название страницы написать</title>
   <meta name="description" content="Описание страницы">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
@@ -64,16 +64,16 @@
           </li>
         </ul>
         <div class="Product" th:object="${bookBySlug}">
-          <div class="ProductCard" th:with="book = ${bookBySlug.book}, author = ${bookBySlug.author}">
+          <div class="ProductCard">
             <div class="ProductCard-look">
               <div class="ProductCard-photo"><img src="/assets/img/content/main/card.jpg" alt="card.jpg"/>
               </div>
             </div>
             <div class="ProductCard-desc">
               <div class="ProductCard-header">
-                <h1 class="ProductCard-title" th:text="${book.title}">Мара и морок
+                <h1 class="ProductCard-title" th:text="${bookBySlug.title}">Мара и морок
                 </h1>
-                <div class="ProductCard-author"><span class="ProductCard-titleProp">Автор:</span>&#32;<a href="@{СЮДА АВТОРА ВСТАВИТЬ SLUG}" th:text="${author.name}">Лия Арден</a>
+                <div class="ProductCard-author"><span class="ProductCard-titleProp">Автор:</span>&#32;<a th:href="@{/books/authors/{id}(id=${bookBySlug.authorId})}" th:text="${bookBySlug.author}">Лия Арден</a>
                 </div>
                 <div class="ProductCard-rating"><span class="ProductCard-titleProp">Рейтинг:</span>
                   <button class="trigger trigger_dropdown" type="button">
@@ -345,8 +345,8 @@
                 </div>
                 <div class="ProductCard-cost">
                   <span class="ProductCard-titleProp">Цена:</span>
-                  <span class="ProductCard-priceOld" th:text="${book.price}">₽300</span>
-                  <span class="ProductCard-price" th:text="${book.price - (book.price / 100 * book.discount)}">₽180</span>
+                  <span class="ProductCard-priceOld" th:text="${bookBySlug.price}">₽300</span>
+                  <span class="ProductCard-price" th:text="${bookBySlug.price - (bookBySlug.price / 100 * bookBySlug.discount)}">₽180</span>
                 </div>
                 <!--+div.-info
                 //+div.-cost
@@ -358,7 +358,7 @@
                 -->
               </div>
               <div class="ProductCard-text">
-                <p th:text="${book.description}">Таких, как я, называют Марами - отмеченными самой богиней смерти Мораной. Когда-то у меня и моих шести сестер был свой путь. Тогда люди нас уважали и просили о милосердии. Они приносили нам подношения и молились нам. Но 200 лет назад все изменилось, когда принц Серата осмелился поднять руку на одну из нас. Я пыталась отомстить, но погибли мы все. Теперь правители Аракена, погрязшие в длительной войне со своим соседом Сератом, решили вернуть меня к жизни. Дать второй шанс на месть и свободу, привязав меня к тому, против кого я никогда не пойду. Таких, как он, называют Морок, и их боятся абсолютно все.
+                <p th:text="${bookBySlug.description}">Таких, как я, называют Марами - отмеченными самой богиней смерти Мораной. Когда-то у меня и моих шести сестер был свой путь. Тогда люди нас уважали и просили о милосердии. Они приносили нам подношения и молились нам. Но 200 лет назад все изменилось, когда принц Серата осмелился поднять руку на одну из нас. Я пыталась отомстить, но погибли мы все. Теперь правители Аракена, погрязшие в длительной войне со своим соседом Сератом, решили вернуть меня к жизни. Дать второй шанс на месть и свободу, привязав меня к тому, против кого я никогда не пойду. Таких, как он, называют Морок, и их боятся абсолютно все.
                 </p>
               </div>
               <div class="ProductCard-cart">

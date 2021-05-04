@@ -1,7 +1,7 @@
 package com.example.MyBookShopApp.controllers;
 
 import com.example.MyBookShopApp.data.BooksAndAuthorsService;
-import javafx.util.Pair;
+import com.example.MyBookShopApp.data.SearchWordDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +15,7 @@ import java.util.Date;
 @Controller
 @RequestMapping("/books")
 public class RecentController {
-    private Logger log = LoggerFactory.getLogger(RecentController.class);
+    private final Logger log = LoggerFactory.getLogger(RecentController.class);
 
     private final BooksAndAuthorsService bookService;
 
@@ -24,9 +24,9 @@ public class RecentController {
         this.bookService = bookService;
     }
 
-    @ModelAttribute("pair")
-    public Pair<String, String> pair() {
-        return new Pair<>("", "");
+    @ModelAttribute("searchWordDto")
+    public SearchWordDto searchWordDto() {
+        return new SearchWordDto();
     }
 
     @GetMapping("/recent")

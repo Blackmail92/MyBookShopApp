@@ -14,7 +14,6 @@ import java.util.List;
 public class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(columnDefinition = "INT NOT NULL")
     private Integer id;
 
     @Column(columnDefinition = "DATE NOT NULL")
@@ -41,17 +40,16 @@ public class Book {
     @Column(columnDefinition = "SMALLINT NOT NULL DEFAULT 0")
     private short discount;
 
-    @ManyToMany(targetEntity = Author.class, fetch = FetchType.LAZY)
-    @JoinTable(name = "book2author")
-    private List<Author> author;
+    @ManyToOne(targetEntity = Author.class, fetch = FetchType.LAZY)
+    @JoinColumn(name = "author_id", referencedColumnName = "id")
+    private Author author;
 
     @OneToMany(targetEntity = BookReview.class, fetch = FetchType.LAZY)
-    @JoinTable(name = "book2review")
     private List<BookReview> bookReview;
 
-    @ManyToMany(targetEntity = Genre.class, fetch = FetchType.LAZY)
-    @JoinTable(name = "genre2book")
-    private List<Genre> genre;
+    @ManyToOne(targetEntity = Genre.class, fetch = FetchType.LAZY)
+    @JoinColumn(name = "genre_id")
+    private Genre genre;
 
     @ManyToMany(targetEntity = User.class, fetch = FetchType.LAZY)
     @JoinTable(name = "book2user")

@@ -8,5 +8,5 @@ import java.util.List;
 
 public interface AuthorRepo extends JpaRepository<Author, Integer> {
     Author findAuthorById(Integer id);
-    List<Author> findAuthorByBook(Book book);
+    Author findAuthorByBook(Book book);
 }

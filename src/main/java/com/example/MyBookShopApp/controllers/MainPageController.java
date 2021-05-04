@@ -1,21 +1,15 @@
 package com.example.MyBookShopApp.controllers;
 
-import com.example.MyBookShopApp.data.BookAndAuthorDto;
-import com.example.MyBookShopApp.data.BooksAndAuthorsService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.example.MyBookShopApp.data.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @Controller
-@RequestMapping("/books")
+@RequestMapping("/")
 public class MainPageController {
-    private Logger logger = LoggerFactory.getLogger(MainPageController.class);
     private final BooksAndAuthorsService bookService;
 
     @Autowired
@@ -24,30 +18,40 @@ public class MainPageController {
     }
 
     @ModelAttribute("allBooks")
-    public List<BookAndAuthorDto> allBooks() {
+    public List<BookDto> allBooks() {
         return bookService.getAllBooksAndAuthors();
     }
 
 
     @ModelAttribute("recommendedBooks")
-    public List<BookAndAuthorDto> recommendedBooks() {
-        return bookService.getRecommendedBooksAndAuthors();
+    public List<BookDto> recommendedBooks() {
+        return bookService.getRecommendedBooks(0, 6);
     }
 
     @ModelAttribute("recentBooks")
-    public List<BookAndAuthorDto> recentBooks() {
-        return bookService.getRecentBooksAndAuthors();
+    public List<BookDto> recentBooks() {
+        return bookService.getRecentBooksAndAuthors(0, 6);
     }
 
     @ModelAttribute("popularBooks")
-    public List<BookAndAuthorDto> popularBooks() {
-        return bookService.getPopularBooksAndAuthors();
+    public List<BookDto> popularBooks() {
+        return bookService.getPopularBooks(0, 6);
+    }
+
+    @ModelAttribute("searchWordDto")
+    public SearchWordDto searchWordDto() {
+        return new SearchWordDto();
     }
 
 
-    @GetMapping
+    @GetMapping("/books")
     public String mainPage() {
         return "index";
     }
 
+    @GetMapping("/books/recommended")
+    @ResponseBody
+    public BooksPageDto getRecommendedBooksPage(@RequestParam("offset") Integer offset, @RequestParam("limit") Integer limit) {
+        return new BooksPageDto(bookService.getRecommendedBooks(offset, limit));
+    }
 }

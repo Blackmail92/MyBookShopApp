@@ -28,6 +28,11 @@ public class Author {
     @Column(columnDefinition = "TEXT")
     private String description;
 
-    @ManyToMany(mappedBy = "author", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "author")
     private List<Book> book;
+
+    @Override
+    public String toString() {
+        return name;
+    }
 }

@@ -69,8 +69,7 @@ p.error-browser
                     </h1>
                 </div>
                 <div class="Cards Cards_refresh">
-                    <div class="Card" th:each="dto : ${popularBooks}">
-                        <div th:with="book = ${dto.book}, author = ${dto.author}">
+                    <div class="Card" th:each="book : ${popularBooks}">
                             <div class="Card-picture">
                                 <a th:href="@{/book/{slug}/(slug=${book.slug})}">
                                     <img src="/assets/img/content/main/card.jpg" alt="card.jpg"/>
@@ -80,7 +79,7 @@ p.error-browser
                                 <strong class="Card-title">
                                     <a th:href="@{/book/{slug}/(slug=${book.slug})}" th:text="${book.title}">Техника</a>
                                 </strong>
-                                <div class="Card-description" th:text="${author.name}">
+                                <div class="Card-description" th:text="${book.author}">
                                     Кондратенко Александр Петрович
                                 </div>
                                 <div class="Card-cost">
@@ -94,7 +93,6 @@ p.error-browser
                                     </div>
                                 </div>
                             </div>
-                        </div>
                     </div>
 
                     <div class="Cards-footer Cards-footer_center"><a class="btn btn_primary" href="#"

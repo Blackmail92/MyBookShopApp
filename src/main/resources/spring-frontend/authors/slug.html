@@ -97,15 +97,15 @@ p.error-browser
                 </header>
                 <div class="Slider Slider_carousel">
                     <div class="Cards Cards_refresh">
-                        <div class="Card" th:each="dto : ${booksByAuthor}" th:with="book = ${dto.book}, author = ${dto.author}">
-                            <div class="Card-picture"><a th:href="@{/book/{slug}/(slug=${book.slug})}"><img
-                                    src="/assets/img/content/main/card.jpg" alt="card.jpg"/></a>
+                        <div class="Card" th:each="book : ${booksByAuthor}">
+                            <div class="Card-picture"><a th:href="@{/book/{slug}/(slug=${book.slug})}">
+                                <img th:src="${book.image}" alt="card.jpg"/></a>
                             </div>
                             <div class="Card-content">
                                 <strong class="Card-title"><a th:href="@{/book/{slug}/(slug=${book.slug})}"
                                                               th:text="${book.title}">Техника</a>
                                 </strong>
-                                <div class="Card-description" th:text="${author.name}">Кондратенко Александр Петрович
+                                <div class="Card-description" th:text="${book.author}">Кондратенко Александр Петрович
                                 </div>
                                 <div class="Card-cost">
                                     <span class="Card-priceOld" th:text="${book.price}">₽300.00</span>

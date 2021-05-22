@@ -17,6 +17,7 @@ public interface BookRepo extends JpaRepository<Book, Integer> {
     List<Book> findAllByIsBestsellerIsTrue(Pageable page);
     List<Book> findBooksByIsBestsellerIsTrueAndPubDateAfter(LocalDateTime t, Pageable page);
 
+    Book findBookBySlug(String slug);
     List<Book> findBooksByTitleContaining(String bookTitle, Pageable page);
     List<Book> findBooksByGenreId(Integer id, Pageable page);
     List<Book> findBooksByGenreId(Integer id);

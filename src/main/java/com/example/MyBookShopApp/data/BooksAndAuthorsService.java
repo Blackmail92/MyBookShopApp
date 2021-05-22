@@ -32,10 +32,12 @@ public class BooksAndAuthorsService {
         return BookMapper.fromList(bookRepo.findAll());
     }
 
-    public BookDto getBookBySlug(String slug) {
-        return getAllBooksAndAuthors().stream()
-                .filter(book -> book.getSlug().equals(slug))
-                .findFirst().orElseThrow(IllegalArgumentException::new);
+    public BookDto getBookDtoBySlug(String slug) {
+        return BookMapper.from(getBookBySlug(slug));
+    }
+
+    public Book getBookBySlug(String slug) {
+        return bookRepo.findBookBySlug(slug);
     }
 
     public Map<String, List<Author>> getAllAuthorsGrouped() {
@@ -100,5 +102,9 @@ public class BooksAndAuthorsService {
     public List<BookDto> getBooksByGenre(Integer id) {
         List<Book> books = bookRepo.findBooksByGenreId(id);
         return BookMapper.fromList(books);
+    }
+
+    public BookRepo getBookRepo() {
+        return bookRepo;
     }
 }

@@ -17,6 +17,7 @@ public class BookMapper {
                 .description(book.getDescription())
                 .price(book.getPrice())
                 .discount(book.getDiscount())
+                .discountPrice(book.discountPrice())
                 .author(book.getAuthor().getName())
                 .authorId(book.getAuthor().getId())
                 .build();

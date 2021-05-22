@@ -58,9 +58,11 @@
         </h1>
         <div class="Section">
           <div class="search">
-            <form class="form form_search" action="#" method="post" data-searchlimit="20">
-              <input class="search-input" id="querypage" name="querypage" type="text" placeholder="Search over 30 million book titles" th:value="${searchWordDto.example}" value="Техника"/>
-              <button class="search-button" type="submit" name="searchpage" id="searchpage">Поиск
+            <form class="form form_search" action="#" method="post" data-searchlimit="20"
+                  th:object="${searchWordDto}">
+              <input class="search-input" id="query" name="query" type="text"
+                     placeholder="Search over 30 million book titles" th:field="*{example}" value=""/>
+              <button class="search-button" type="submit" name="search" id="search">Поиск
               </button>
             </form>
           </div>
@@ -89,7 +91,7 @@
                   <div th:if="${book.discount} > 0">
                     <span class="Card-priceOld" th:text="${book.price}">₽300.00</span>
                     <span class="Card-price"
-                          th:text="${book.price - (book.price / 100 * book.discount)}">₽190.00</span>
+                          th:text="${book.discountPrice}">₽190.00</span>
                   </div>
                   <div th:if="${book.discount} == 0">
                     <span class="Card-price" th:text="${book.price}">₽300.00</span>

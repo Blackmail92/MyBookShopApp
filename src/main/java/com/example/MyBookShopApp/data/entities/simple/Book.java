@@ -1,5 +1,6 @@
 package com.example.MyBookShopApp.data.entities.simple;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -39,6 +40,10 @@ public class Book {
 
     @Column(columnDefinition = "SMALLINT NOT NULL DEFAULT 0")
     private short discount;
+
+    public Integer discountPrice() {
+        return price - (price / 100 * discount);
+    }
 
     @ManyToOne(targetEntity = Author.class, fetch = FetchType.LAZY)
     @JoinColumn(name = "author_id", referencedColumnName = "id")

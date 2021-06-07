@@ -1072,6 +1072,13 @@ insert into book (id, description, discount, image, is_bestseller, price, pub_da
 insert into book (id, description, discount, image, is_bestseller, price, pub_date, slug, title, author_id, genre_id) values (999, 'Aliquam quis turpis eget elit sodales scelerisque. Mauris sit amet eros. Suspendisse accumsan tortor quis turpis. Sed ante. Vivamus tortor. Duis mattis egestas metus.', 0, 'http://dummyimage.com/113x220.png/dddddd/000000', true, 533, '2020/08/18', 'book-4PCC-3296', 'Painted Fire (Chihwaseon)', 48, 16);
 insert into book (id, description, discount, image, is_bestseller, price, pub_date, slug, title, author_id, genre_id) values (1000, 'Vivamus in felis eu sapien cursus vestibulum. Proin eu mi. Nulla ac enim. In tempor, turpis nec euismod scelerisque, quam turpis adipiscing lorem, vitae mattis nibh ligula nec sem. Duis aliquam convallis nunc. Proin at turpis a pede posuere nonummy. Integer non velit.', 0, 'http://dummyimage.com/117x160.png/ff4444/ffffff', false, 271, '2020/02/05', 'book-KiPC-9893', 'Men Who Made the Movies: Samuel Fuller, The', 13, 19);
 
+insert into bookfile_type (id, description, name) values (1, 'A .pdf file type', '.pdf');
+insert into bookfile_type (id, description, name) values (2, 'A .epub file type', '.epub');
+insert into bookfile_type (id, description, name) values (3, 'An .fb2 file type', '.fb2');
+
+insert into book_file (id, hash, path, type_id, book_id) values (1, 'qwertyuiop', '/An_American_Hippie_in_Israel.pdf', 1, 4);
+insert into book_file (id, hash, path, type_id, book_id) values (2, '1234567890', '/An_American_Hippie_in_Israel.epub', 2, 4);
+insert into book_file (id, hash, path, type_id, book_id) values (3, 'q1w2e3r4t5', '/An_American_Hippie_in_Israel.fb2', 3, 4);
 
 alter table book2user
     add column if not exists id serial not null;

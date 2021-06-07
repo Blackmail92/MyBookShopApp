@@ -1,6 +1,7 @@
 package com.example.MyBookShopApp.data;
 
 import com.example.MyBookShopApp.data.entities.simple.Book;
+import com.example.MyBookShopApp.data.entities.simple.BookFile;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -20,6 +21,7 @@ public class BookMapper {
                 .discountPrice(book.discountPrice())
                 .author(book.getAuthor().getName())
                 .authorId(book.getAuthor().getId())
+                .fileList(book.getFiles())
                 .build();
     }
 

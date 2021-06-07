@@ -22,4 +22,7 @@ public class BookFile {
 
     @Column(columnDefinition = "VARCHAR(255) NOT NULL")
     private String path;
+
+    @ManyToOne(targetEntity = Book.class, fetch = FetchType.LAZY)
+    private Book book;
 }

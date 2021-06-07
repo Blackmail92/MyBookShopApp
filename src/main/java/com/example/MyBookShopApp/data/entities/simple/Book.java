@@ -1,11 +1,11 @@
 package com.example.MyBookShopApp.data.entities.simple;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -59,6 +59,9 @@ public class Book {
     @ManyToMany(targetEntity = User.class, fetch = FetchType.LAZY)
     @JoinTable(name = "book2user")
     private List<User> user;
+
+    @OneToMany(mappedBy = "book")
+    private List<BookFile> files = new ArrayList<>();
 
     @OneToMany(mappedBy = "book")
     private List<FileDownload> download;

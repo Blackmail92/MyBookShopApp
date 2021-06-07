@@ -1,11 +1,13 @@
 package com.example.MyBookShopApp.data;
 
+import com.example.MyBookShopApp.data.entities.simple.BookFile;
 import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
 import lombok.Data;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Builder
 @Data
@@ -27,6 +29,7 @@ public class BookDto {
     private Integer discountPrice;
     private String author;
     private Integer authorId;
+    private List<BookFile> fileList;
 
     @JsonGetter("authors")
     public String authors() {

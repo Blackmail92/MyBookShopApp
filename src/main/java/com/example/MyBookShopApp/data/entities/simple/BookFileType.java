@@ -29,7 +29,7 @@ public class BookFileType {
 
     @PostLoad
     void fillTransient() {
-        this.typeEnum = TableEnums.FileType.of(name);
+        this.typeEnum = TableEnums.FileType.of(id);
     }
 
     @PrePersist

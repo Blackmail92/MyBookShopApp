@@ -4,6 +4,7 @@ import com.example.MyBookShopApp.data.entities.simple.Author;
 import com.example.MyBookShopApp.data.entities.simple.Book;
 import com.example.MyBookShopApp.data.repos.AuthorRepo;
 import com.example.MyBookShopApp.data.repos.BookRepo;
+import com.example.MyBookShopApp.errors.BookStoreApiException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -49,8 +50,24 @@ public class BooksAndAuthorsService {
         return authorRepo.findAuthorById(id);
     }
 
+    public Author getAuthorByName(String name) {
+        return authorRepo.findFirstByName(name);
+    }
+
     public List<BookDto> getBooksByAuthor(Author author) {
         return BookMapper.fromList(bookRepo.findAllByAuthor(author));
+    }
+
+    public List<BookDto> getBooksByTitle(String title) throws BookStoreApiException {
+        if (!StringUtils.hasText(title)) {
+            throw new BookStoreApiException("Wrong param value passed");
+        }
+        List<Book> data = bookRepo.findBooksByTitleContaining(title);
+        if (data.size() > 0) {
+            return BookMapper.fromList(data);
+        } else {
+            throw new BookStoreApiException("No data found");
+        }
     }
 
     public List<BookDto> getBooksByDate(Date from, Date till) {
@@ -76,6 +93,10 @@ public class BooksAndAuthorsService {
         Pageable nextPage = PageRequest.of(offset, limit);
         List<Book> books = bookRepo.findBooksByIsBestsellerIsTrueAndPubDateAfter(LocalDateTime.now().minusYears(1), nextPage);
         return BookMapper.fromList(books);
+    }
+
+    public List<BookDto> getBestsellers() {
+        return BookMapper.fromList(bookRepo.findAllByIsBestsellerIsTrue());
     }
 
     public List<BookDto> getRecentBooksAndAuthors() {
@@ -106,5 +127,9 @@ public class BooksAndAuthorsService {
 
     public BookRepo getBookRepo() {
         return bookRepo;
+    }
+
+    public List<BookDto> getBooksBySlugIn(List<String> slugs) {
+        return BookMapper.fromList(bookRepo.findBooksBySlugIn(slugs));
     }
 }

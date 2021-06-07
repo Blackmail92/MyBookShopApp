@@ -1,4 +1,4 @@
-/*
+package com.example.MyBookShopApp;/*
 package com.example.MyBookShopApp;
 
 import org.junit.jupiter.api.Test;
@@ -104,3 +104,21 @@ class MyBookShopAppApplicationTests extends One {
     }
 }
 */
+
+import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.util.StringUtils;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+
+@SpringBootTest
+class MyBookShopAppApplicationTests {
+    @Test
+    public void one() {
+        List<String> slugs = Arrays.asList("", "123", null, "1234");
+        slugs = slugs.stream().filter(StringUtils::hasLength).collect(Collectors.toList());
+        System.out.println(slugs);
+    }
+}

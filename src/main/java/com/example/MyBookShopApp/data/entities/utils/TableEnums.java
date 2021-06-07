@@ -49,9 +49,9 @@ public class TableEnums {
             return code;
         }
 
-        public static FileType of(String name) {
+        public static FileType of(Integer id) {
             return Stream.of(FileType.values())
-                    .filter(type -> type.name().equals(name))
+                    .filter(type -> type.getCode() == id)
                     .findFirst()
                     .orElseThrow(IllegalArgumentException::new);
         }

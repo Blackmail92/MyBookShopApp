@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Collection;
 import java.util.List;
 
 public interface BookRepo extends JpaRepository<Book, Integer> {
@@ -15,10 +16,13 @@ public interface BookRepo extends JpaRepository<Book, Integer> {
     List<Book> findByPubDateAfter(LocalDateTime date, Pageable page);
     List<Book> findAllByPubDateAfter(LocalDateTime date);
     List<Book> findAllByIsBestsellerIsTrue(Pageable page);
+    List<Book> findAllByIsBestsellerIsTrue();
     List<Book> findBooksByIsBestsellerIsTrueAndPubDateAfter(LocalDateTime t, Pageable page);
 
     Book findBookBySlug(String slug);
     List<Book> findBooksByTitleContaining(String bookTitle, Pageable page);
+    List<Book> findBooksByTitleContaining(String bookTitle);
     List<Book> findBooksByGenreId(Integer id, Pageable page);
     List<Book> findBooksByGenreId(Integer id);
+    List<Book> findBooksBySlugIn(Collection<String> slug);
 }

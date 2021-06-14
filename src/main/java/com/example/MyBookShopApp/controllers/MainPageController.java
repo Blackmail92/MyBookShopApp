@@ -44,7 +44,7 @@ public class MainPageController {
     }
 
 
-    @GetMapping("/books")
+    @GetMapping(value = {"/", "/books"})
     public String mainPage() {
         return "index";
     }
